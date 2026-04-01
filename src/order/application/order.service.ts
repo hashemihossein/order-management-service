@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OrderStatus } from '../domain/value-objects/order-status.vo';
 import { CommandBus } from '@nestjs/cqrs';
-import { PlaceOrderCommand } from '../commands/place-order.command';
+import { PlaceOrderCommand } from './commands/place-order.command';
 
 @Injectable()
 export class OrderService {
