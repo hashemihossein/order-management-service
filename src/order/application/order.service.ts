@@ -7,13 +7,13 @@ import { PlaceOrderCommand } from './commands/place-order.command';
 export class OrderService {
   constructor(private readonly commandBus: CommandBus) {}
 
-  placeOrder(
+  async placeOrder(
     userId: string,
     originToken: string,
     destinationToken: string,
     amount: number,
   ) {
-    return this.commandBus.execute(
+    return await this.commandBus.execute(
       new PlaceOrderCommand(userId, originToken, destinationToken, amount),
     );
   }

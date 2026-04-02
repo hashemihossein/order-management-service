@@ -11,17 +11,25 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PlaceOrderDto, OrderResponseDto, GetOrdersQueryDto } from './dto';
+import { OrderService } from 'src/order/application/order.service';
 
 @ApiTags('orders')
 @Controller('orders')
 export class OrderController {
-  constructor() {}
+  constructor(private readonly orderService: OrderService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Place a new exchange order' })
   @ApiResponse({ status: 201, type: OrderResponseDto })
-  async placeOrder(@Body() dto: PlaceOrderDto) {}
+  async placeOrder(@Body() dto: PlaceOrderDto) {
+    return this.orderService.placeOrder(
+      dto.userId,
+      dto.originToken,
+      dto.destinationToken,
+      dto.amount,
+    );
+  }
 
   @Get()
   @ApiOperation({
