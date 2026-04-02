@@ -1,7 +1,7 @@
 export class Version {
-  constructor(readonly value: Number) {
-    if (typeof value !== 'number') {
-      throw new TypeError('Version must be a number');
+  constructor(readonly value: BigInt) {
+    if (typeof value !== 'bigint') {
+      throw new TypeError('Version must be a BigInt');
     }
   }
 }

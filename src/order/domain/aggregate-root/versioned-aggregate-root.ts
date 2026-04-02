@@ -1,13 +1,15 @@
 import { AggregateRoot, IEvent } from '@nestjs/cqrs';
 import { Version } from './object-value/version';
 import { SnapshotThreshold } from './object-value/snapshot-threshold';
+import { AggregateSnapshotEvent } from '../events/aggregate-snapshot.event';
+import { SerializedEventPayload } from '../events/interfaces/serializable-event';
 
 const VERSION = Symbol('version');
 
 export class VersionedAggregateRoot extends AggregateRoot {
   public id: string;
 
-  private [VERSION] = new Version(-1);
+  private [VERSION] = new Version(-1n);
   #snapshotThreshold = new SnapshotThreshold(5);
 
   get snapshotThreshold(): number {
@@ -16,6 +18,10 @@ export class VersionedAggregateRoot extends AggregateRoot {
 
   set snapshotThreshold(threshold: number) {
     this.#snapshotThreshold = new SnapshotThreshold(threshold);
+  }
+
+  get snapshotEvent() {
+    return new AggregateSnapshotEvent(this);
   }
 
   get version(): Version {
@@ -34,5 +40,11 @@ export class VersionedAggregateRoot extends AggregateRoot {
     } else {
       super.apply(event, { skipHandler: true });
     }
+  }
+
+  [`on${AggregateSnapshotEvent.name}`](
+    event: SerializedEventPayload<AggregateSnapshotEvent>,
+  ) {
+    Object.assign(this, event.aggregate);
   }
 }
