@@ -6,5 +6,5 @@ export abstract class ESDBRepository {
     snapshot?: SerializableEvent,
   ): Promise<boolean>;
 
-  abstract readEventsFromStream(streamId: string): AsyncIterable<any>;
+  abstract readEventsFromStream(streamId: string): Promise<AsyncIterable<any>>;
 }
