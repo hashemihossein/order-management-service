@@ -1,6 +1,8 @@
+import { BadRequestException } from '@nestjs/common';
 import { VersionedAggregateRoot } from './aggregate-root/versioned-aggregate-root';
 import { SerializedEventPayload } from './events/interfaces/serializable-event';
 import { OrderCreatedEvent } from './events/order/order-created.event';
+import { OrderExecutedEvent } from './events/order/order-executed.event';
 import { OrderStatus } from './value-objects/order-status.vo';
 
 export class Order extends VersionedAggregateRoot {
@@ -27,5 +29,17 @@ export class Order extends VersionedAggregateRoot {
     this.status = event.order.status;
     this.createdAt = new Date(event.order.createdAt);
     this.updatedAt = new Date(event.order.createdAt);
+  }
+
+  [`on${OrderExecutedEvent.name}`](
+    event: SerializedEventPayload<OrderExecutedEvent>,
+  ) {
+    if (this.status !== OrderStatus.PENDING) {
+      throw new BadRequestException(
+        `Order ${this.id} cannot be executed; current status: ${this.status}`,
+      );
+    }
+    this.status = OrderStatus.EXECUTED;
+    this.updatedAt = new Date(event.payload.executedAt);
   }
 }
