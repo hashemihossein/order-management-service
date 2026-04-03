@@ -8,6 +8,7 @@ import { PlaceOrderCommandHandler } from './commands/handler/place-order.command
 import { PersistenceModule } from '../infrastructure/persistence/persistence.module';
 import { MessagingModule } from '../infrastructure/messaging/messaging.module';
 import { ESDBOrderSubscription } from '../presentation/subscription/esdb/esdb-order-subscription';
+import { GetOrdersQueryHandler } from './queries/handler/get-orders.query-handler';
 
 @Module({
   imports: [CqrsModule, PersistenceModule, MessagingModule],
@@ -20,6 +21,7 @@ import { ESDBOrderSubscription } from '../presentation/subscription/esdb/esdb-or
     PlaceOrderCommandHandler,
 
     // Query Handlers
+    GetOrdersQueryHandler,
 
     // Projection Event Handlers
     OrderCreatedEventHandler,

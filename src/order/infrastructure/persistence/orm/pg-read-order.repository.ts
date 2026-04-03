@@ -35,7 +35,7 @@ export class PgReadOrderRepository extends OrderReadRepository {
     userId: string,
     status?: OrderStatus,
   ): Promise<OrderReadModel[]> {
-    const where: any = { userId };
+    const where: { userId: string; status?: OrderStatus } = { userId };
     if (status) where.status = status;
     const entities = await this.repo.find({
       where,

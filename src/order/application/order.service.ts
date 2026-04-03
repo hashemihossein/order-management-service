@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { OrderStatus } from '../domain/value-objects/order-status.vo';
-import { CommandBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { PlaceOrderCommand } from './commands/place-order.command';
+import { GetOrdersQuery } from './queries/get-orders.query';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
   async placeOrder(
     userId: string,
@@ -22,7 +26,9 @@ export class OrderService {
 
   cancelOrder(orderId: string) {}
 
-  getOrders(userId: string, status?: OrderStatus) {}
+  async getOrders(userId: string, status?: OrderStatus) {
+    return await this.queryBus.execute(new GetOrdersQuery(userId, status));
+  }
 
   getOrderById(orderId: string) {}
 }
