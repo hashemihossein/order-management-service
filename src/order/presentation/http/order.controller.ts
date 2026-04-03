@@ -58,5 +58,7 @@ export class OrderController {
   @Patch(':id/cancel')
   @ApiOperation({ summary: 'Cancel a PENDING order' })
   @ApiResponse({ status: 200, type: OrderResponseDto })
-  async cancelOrder(@Param() param: IdParamDto) {}
+  async cancelOrder(@Param() param: IdParamDto) {
+    return this.orderService.cancelOrder(param.id);
+  }
 }

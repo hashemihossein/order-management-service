@@ -12,6 +12,8 @@ import { GetOrdersQueryHandler } from './queries/handler/get-orders.query-handle
 import { GetOrderByIdQueryHandler } from './queries/handler/get-order-by-id.query-handler';
 import { OrderExecutedEventHandler } from './event-handlers/order-executed.event-handler';
 import { ExecuteOrderCommandHandler } from './commands/handler/execute-order.command-handler';
+import { CancelOrderCommandHandler } from './commands/handler/cancel-order.command-handler';
+import { OrderCancelledEventHandler } from './event-handlers/order-cancelled.event-handler';
 
 @Module({
   imports: [CqrsModule, PersistenceModule, MessagingModule],
@@ -23,6 +25,7 @@ import { ExecuteOrderCommandHandler } from './commands/handler/execute-order.com
     // Command Handlers
     PlaceOrderCommandHandler,
     ExecuteOrderCommandHandler,
+    CancelOrderCommandHandler,
 
     // Query Handlers
     GetOrdersQueryHandler,
@@ -31,6 +34,7 @@ import { ExecuteOrderCommandHandler } from './commands/handler/execute-order.com
     // Projection Event Handlers
     OrderCreatedEventHandler,
     OrderExecutedEventHandler,
+    OrderCancelledEventHandler,
   ],
 })
 export class OrderModule {}

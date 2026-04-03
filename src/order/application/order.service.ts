@@ -5,6 +5,7 @@ import { PlaceOrderCommand } from './commands/place-order.command';
 import { GetOrdersQuery } from './queries/get-orders.query';
 import { GetOrderByIdQuery } from './queries/get-order-by-id.query';
 import { ExecuteOrderCommand } from './commands/execute-order.command';
+import { CancelOrderCommand } from './commands/cancel-order.command';
 
 @Injectable()
 export class OrderService {
@@ -28,7 +29,9 @@ export class OrderService {
     return await this.commandBus.execute(new ExecuteOrderCommand(orderId));
   }
 
-  cancelOrder(orderId: string) {}
+  async cancelOrder(orderId: string) {
+    return await this.commandBus.execute(new CancelOrderCommand(orderId));
+  }
 
   async getOrders(userId: string, status?: OrderStatus) {
     return await this.queryBus.execute(new GetOrdersQuery(userId, status));
