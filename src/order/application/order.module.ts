@@ -9,6 +9,7 @@ import { PersistenceModule } from '../infrastructure/persistence/persistence.mod
 import { MessagingModule } from '../infrastructure/messaging/messaging.module';
 import { ESDBOrderSubscription } from '../presentation/subscription/esdb/esdb-order-subscription';
 import { GetOrdersQueryHandler } from './queries/handler/get-orders.query-handler';
+import { GetOrderByIdQueryHandler } from './queries/handler/get-order-by-id.query-handler';
 
 @Module({
   imports: [CqrsModule, PersistenceModule, MessagingModule],
@@ -22,6 +23,7 @@ import { GetOrdersQueryHandler } from './queries/handler/get-orders.query-handle
 
     // Query Handlers
     GetOrdersQueryHandler,
+    GetOrderByIdQueryHandler,
 
     // Projection Event Handlers
     OrderCreatedEventHandler,

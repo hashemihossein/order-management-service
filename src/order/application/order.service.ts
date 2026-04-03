@@ -3,6 +3,7 @@ import { OrderStatus } from '../domain/value-objects/order-status.vo';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { PlaceOrderCommand } from './commands/place-order.command';
 import { GetOrdersQuery } from './queries/get-orders.query';
+import { GetOrderByIdQuery } from './queries/get-order-by-id.query';
 
 @Injectable()
 export class OrderService {
@@ -30,5 +31,7 @@ export class OrderService {
     return await this.queryBus.execute(new GetOrdersQuery(userId, status));
   }
 
-  getOrderById(orderId: string) {}
+  async getOrderById(orderId: string) {
+    return await this.queryBus.execute(new GetOrderByIdQuery(orderId));
+  }
 }
