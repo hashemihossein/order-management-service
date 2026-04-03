@@ -43,7 +43,9 @@ export class OrderController {
   @Get(':id')
   @ApiOperation({ summary: 'Get a single order by ID' })
   @ApiResponse({ status: 200, type: OrderResponseDto })
-  async getOrderById(@Param('id') id: string) {}
+  async getOrderById(@Param('id') id: string) {
+    return this.orderService.getOrderById(id);
+  }
 
   @Patch(':id/execute')
   @ApiOperation({ summary: 'Mark a PENDING order as EXECUTED' })
