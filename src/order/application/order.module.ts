@@ -10,6 +10,7 @@ import { MessagingModule } from '../infrastructure/messaging/messaging.module';
 import { ESDBOrderSubscription } from '../presentation/subscription/esdb/esdb-order-subscription';
 import { GetOrdersQueryHandler } from './queries/handler/get-orders.query-handler';
 import { GetOrderByIdQueryHandler } from './queries/handler/get-order-by-id.query-handler';
+import { ExecuteOrderCommandHandler } from './commands/handler/execute-order.command-handler';
 
 @Module({
   imports: [CqrsModule, PersistenceModule, MessagingModule],
@@ -20,6 +21,7 @@ import { GetOrderByIdQueryHandler } from './queries/handler/get-order-by-id.quer
 
     // Command Handlers
     PlaceOrderCommandHandler,
+    ExecuteOrderCommandHandler,
 
     // Query Handlers
     GetOrdersQueryHandler,

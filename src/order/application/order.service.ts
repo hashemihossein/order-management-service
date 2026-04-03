@@ -4,6 +4,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { PlaceOrderCommand } from './commands/place-order.command';
 import { GetOrdersQuery } from './queries/get-orders.query';
 import { GetOrderByIdQuery } from './queries/get-order-by-id.query';
+import { ExecuteOrderCommand } from './commands/execute-order.command';
 
 @Injectable()
 export class OrderService {
@@ -23,7 +24,9 @@ export class OrderService {
     );
   }
 
-  executeOrder(orderId: string) {}
+  async executeOrder(orderId: string) {
+    return await this.commandBus.execute(new ExecuteOrderCommand(orderId));
+  }
 
   cancelOrder(orderId: string) {}
 
