@@ -10,6 +10,7 @@ import { MessagingModule } from '../infrastructure/messaging/messaging.module';
 import { ESDBOrderSubscription } from '../presentation/subscription/esdb/esdb-order-subscription';
 import { GetOrdersQueryHandler } from './queries/handler/get-orders.query-handler';
 import { GetOrderByIdQueryHandler } from './queries/handler/get-order-by-id.query-handler';
+import { OrderExecutedEventHandler } from './event-handlers/order-executed.event-handler';
 import { ExecuteOrderCommandHandler } from './commands/handler/execute-order.command-handler';
 
 @Module({
@@ -29,6 +30,7 @@ import { ExecuteOrderCommandHandler } from './commands/handler/execute-order.com
 
     // Projection Event Handlers
     OrderCreatedEventHandler,
+    OrderExecutedEventHandler,
   ],
 })
 export class OrderModule {}

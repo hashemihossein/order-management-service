@@ -14,6 +14,13 @@ export class ExecuteOrderCommandHandler implements ICommandHandler<ExecuteOrderC
   async execute(command: ExecuteOrderCommand): Promise<Order> {
     const order = await this.rehydrator.rehydrate(command.orderId, Order);
 
+    order.apply(
+      new OrderExecutedEvent({
+        id: order.id,
+        executedAt: new Date().toISOString(),
+      }),
+    );
+
     this.eventPublisher.mergeObjectContext(order);
     order.commit();
 
