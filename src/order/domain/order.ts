@@ -4,6 +4,7 @@ import { SerializedEventPayload } from './events/interfaces/serializable-event';
 import { OrderCreatedEvent } from './events/order/order-created.event';
 import { OrderExecutedEvent } from './events/order/order-executed.event';
 import { OrderStatus } from './value-objects/order-status.vo';
+import { OrderCancelledEvent } from './events/order/order-cancelled.event';
 
 export class Order extends VersionedAggregateRoot {
   constructor(
@@ -41,5 +42,17 @@ export class Order extends VersionedAggregateRoot {
     }
     this.status = OrderStatus.EXECUTED;
     this.updatedAt = new Date(event.payload.executedAt);
+  }
+
+  [`on${OrderCancelledEvent.name}`](
+    event: SerializedEventPayload<OrderCancelledEvent>,
+  ) {
+    if (this.status !== OrderStatus.PENDING) {
+      throw new BadRequestException(
+        `Order ${this.id} cannot be cancelled; current status: ${this.status}`,
+      );
+    }
+    this.status = OrderStatus.CANCELLED;
+    this.updatedAt = new Date(event.payload.cancelledAt);
   }
 }
