@@ -1,12 +1,12 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { OrderStatus } from 'src/order/domain/value-objects/order-status.vo';
 
 export class GetOrdersQueryDto {
-  @ApiPropertyOptional({ example: 'user-123' })
+  @ApiProperty({ example: 'user-123' })
   @IsString()
-  @IsOptional()
-  userId?: string;
+  @IsNotEmpty()
+  userId: string;
 
   @ApiPropertyOptional({ enum: OrderStatus })
   @IsEnum(OrderStatus)

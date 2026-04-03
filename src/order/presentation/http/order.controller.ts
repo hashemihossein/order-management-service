@@ -36,7 +36,9 @@ export class OrderController {
     summary: 'Get orders by userId (with optional status filter)',
   })
   @ApiResponse({ status: 200, type: [OrderResponseDto] })
-  async getOrders(@Query() query: GetOrdersQueryDto) {}
+  async getOrders(@Query() query: GetOrdersQueryDto) {
+    return this.orderService.getOrders(query.userId, query.status);
+  }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a single order by ID' })
