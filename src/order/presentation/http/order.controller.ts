@@ -51,10 +51,12 @@ export class OrderController {
   @Patch(':id/execute')
   @ApiOperation({ summary: 'Mark a PENDING order as EXECUTED' })
   @ApiResponse({ status: 200, type: OrderResponseDto })
-  async executeOrder(@Param('id') id: string) {}
+  async executeOrder(@Param() param: IdParamDto) {
+    return this.orderService.executeOrder(param.id);
+  }
 
   @Patch(':id/cancel')
   @ApiOperation({ summary: 'Cancel a PENDING order' })
   @ApiResponse({ status: 200, type: OrderResponseDto })
-  async cancelOrder(@Param('id') id: string) {}
+  async cancelOrder(@Param() param: IdParamDto) {}
 }
