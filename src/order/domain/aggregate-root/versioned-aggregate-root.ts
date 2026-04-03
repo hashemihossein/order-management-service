@@ -2,7 +2,10 @@ import { AggregateRoot, IEvent } from '@nestjs/cqrs';
 import { Version } from './object-value/version';
 import { SnapshotThreshold } from './object-value/snapshot-threshold';
 import { AggregateSnapshotEvent } from '../events/aggregate-snapshot.event';
-import { SerializedEventPayload } from '../events/interfaces/serializable-event';
+import {
+  SerializableEvent,
+  SerializedEventPayload,
+} from '../events/interfaces/serializable-event';
 
 const VERSION = Symbol('version');
 
@@ -39,6 +42,15 @@ export class VersionedAggregateRoot extends AggregateRoot {
       super.apply(event, options);
     } else {
       super.apply(event, { skipHandler: true });
+    }
+  }
+
+  loadFromHistory(history: SerializableEvent[]): void {
+    const domainEvents = history.map((e) => e.data);
+    super.loadFromHistory(domainEvents);
+    const newVersion = history.at(-1)?.position;
+    if (typeof newVersion !== 'undefined') {
+      this.setVersion(new Version(newVersion));
     }
   }
 
