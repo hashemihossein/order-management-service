@@ -12,7 +12,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PlaceOrderDto, OrderResponseDto, GetOrdersQueryDto } from './dto';
 import { OrderService } from 'src/order/application/order.service';
-import { GetOrdersByIdParamDto } from './dto/get-orders-by-id-param.dto';
+import { IdParamDto } from './dto/get-orders-by-id-param.dto';
 
 @ApiTags('orders')
 @Controller('orders')
@@ -44,7 +44,7 @@ export class OrderController {
   @Get(':id')
   @ApiOperation({ summary: 'Get a single order by ID' })
   @ApiResponse({ status: 200, type: OrderResponseDto })
-  async getOrderById(@Param() param: GetOrdersByIdParamDto) {
+  async getOrderById(@Param() param: IdParamDto) {
     return this.orderService.getOrderById(param.id);
   }
 
